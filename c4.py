@@ -24,26 +24,33 @@ text_style = {
     'i': 3,
     'u': 4,
 }
-background_color = (text_color['black'] + 10)
+#how many in a row to win
 how_many_to_connect = 4
 
-ROW_COUNT = 1 + int(input("How many rows should there be?\n"))
-COLUMN_COUNT = int(input("How many columns should there be?\n"))
-player_1_color = text_color[str.lower(input("What should be the color for player 1?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n"))]
-player_2_color = text_color[str.lower(input("What should be the color for player 2?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n"))]
-player_1_style = text_color[str.lower(input("What should be the style for player 1?\n(N)one, (B)old, (I)talic, (U)nderline\n"))]
-player_2_style = text_color[str.lower(input("What should be the style for player 2?\n(N)one, (B)old, (I)talic, (U)nderline\n"))]
 
-
-def ask_for_input(input_text, error, conv):
+#coninuesly ask for input until something valid is input
+def ask_for_input(input_text, conv):
     while True:
         try:
-            ans = conv.replace('THE_INPUT', input(input_text))
-            ans = eval(ans)
-            break
-        except error:
-            print("Unknown character")
-    return ans
+            a = input(input_text)
+            if not a:
+                continue
+            else:
+                ans = conv.replace('THE_INPUT', a)
+                ans = eval(str(ans))
+                return ans
+        except (NameError, ValueError, KeyError, TypeError) as e:
+            continue
+
+#set the colors/styles/column count/row count from input
+background_color = (text_color['black'] + 10)
+ROW_COUNT = 1 + ask_for_input(input_text='How many rows should there be?\n', conv='int(str(THE_INPUT))')
+COLUMN_COUNT = ask_for_input(input_text='How many columns should there be?\n', conv='int(str(THE_INPUT))')
+player_1_color = ask_for_input(input_text="What should be the color for player 1?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
+player_2_color = ask_for_input(input_text="What should be the color for player 2?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
+player_1_style = ask_for_input(input_text="What should be the style for player 1?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
+player_2_style = ask_for_input(input_text="What should be the style for player 2?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
+
 
 
 #class for the board obj
@@ -186,7 +193,7 @@ def game_loop(board, big_board):
         print_board(board)
         #print who's turn it is
         print("\nPlayer {}'s turn: ".format(turn + 1), end='')
-        col = (ask_for_input(input_text='', error=ValueError, conv='int(THE_INPUT)') - 1) % COLUMN_COUNT
+        col = (ask_for_input(input_text='', conv='int(THE_INPUT)') - 1) % COLUMN_COUNT
 
         if is_valid_location(board, col):
             #if the column is valid then we find the lowest available row
