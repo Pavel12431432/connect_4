@@ -41,13 +41,13 @@ def ask_for_input(input_text, conv):
 
 #set the colors/styles/column count/row count from input
 background_color = (text_color['black'] + 10)
-ROW_COUNT = 1 + 6#ask_for_input(input_text='How many rows should there be?\n', conv='int(str(THE_INPUT))')
-COLUMN_COUNT = 7#ask_for_input(input_text='How many columns should there be?\n', conv='int(str(THE_INPUT))')
-player_1_color = 31#ask_for_input(input_text="What should be the color for player 1?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
-player_2_color = 33#ask_for_input(input_text="What should be the color for player 2?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
-player_1_style = 1#ask_for_input(input_text="What should be the style for player 1?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
-player_2_style = 1#ask_for_input(input_text="What should be the style for player 2?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
-player_to_help = ask_for_input(input_text='', conv='int(THE_INPUT)')
+ROW_COUNT = 1 + ask_for_input(input_text='How many rows should there be?\n', conv='int(str(THE_INPUT))')
+COLUMN_COUNT = ask_for_input(input_text='How many columns should there be?\n', conv='int(str(THE_INPUT))')
+player_1_color = ask_for_input(input_text="What should be the color for player 1?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
+player_2_color = ask_for_input(input_text="What should be the color for player 2?\n(R)ed, (G)reen, (Y)ellow, (B)lue, (P)urple, (C)yan, (W)hite\n", conv="text_color[str.lower(str('THE_INPUT'))]")
+player_1_style = ask_for_input(input_text="What should be the style for player 1?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
+player_2_style = ask_for_input(input_text="What should be the style for player 2?\n(N)one, (B)old, (I)talic, (U)nderline\n", conv="text_style[str.lower(str('THE_INPUT'))]")
+#player_to_help = ask_for_input(input_text='', conv='int(THE_INPUT)')
 
 
 #class for the board obj
@@ -126,8 +126,6 @@ def print_board(board):
 
 
 def is_there_a_winning_move(board, piece):
-    if piece != player_to_help:
-        return
     for col in range(COLUMN_COUNT):
         if is_valid_location(board, col):
             row = get_next_open_row(board, col)
@@ -218,8 +216,8 @@ def game_loop(board, big_board):
                 if winning_move(board, turn + 1):
                     game_over = True
                     print("Player {} has won".format(turn + 1))
-                else:
-                    is_there_a_winning_move(board, 2 - turn)
+                #else:
+                    #is_there_a_winning_move(board, 2 - turn)
 
         #change turns
         turn = 1 - turn
